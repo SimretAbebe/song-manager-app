@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import AppLayout from "./layout/AppLayout";
+import SongList from "./components/SongList";
 
 // Welcome section title
 const PageTitle = styled.h2`
@@ -18,7 +19,7 @@ const Subtitle = styled.p`
   line-height: ${({ theme }) => theme.typography.body1.lineHeight};
   margin-bottom: ${({ theme }) => theme.spacing(3)};
   text-align: center;
-  max-width: 600px; 
+  max-width: 600px;
 `;
 
 // Feature showcase card
@@ -50,11 +51,16 @@ function App() {
         <PageTitle>Welcome to Song Manager</PageTitle>
         <Subtitle>
           A modern React application with Emotion theming and Redux state
-          management. Built with professional development practices and scalable architecture.
+          management. Built with professional development practices and scalable
+          architecture.
         </Subtitle>
 
+        <SongList />
+
         <FeatureCard>
-          <h3 style={{ marginTop: 0, color: '#1976d2' }}>Features Coming Soon:</h3>
+          <h3 style={{ marginTop: 0, color: "#1976d2" }}>
+            Features Coming Soon:
+          </h3>
           <FeatureList>
             <li>Full CRUD operations for songs</li>
             <li>Paginated song list with search</li>
