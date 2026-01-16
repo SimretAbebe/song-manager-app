@@ -2,24 +2,24 @@
 export const theme = {
   // Color palette
   colors: {
-    primary: '#1976d2',      
-    secondary: '#dc004e',    
-    success: '#4caf50',      
-    warning: '#ff9800',      
-    error: '#f44336',       
-    info: '#2196f3',         
+    primary: "#1976d2",
+    secondary: "#dc004e",
+    success: "#4caf50",
+    warning: "#ff9800",
+    error: "#f44336",
+    info: "#2196f3",
 
-    
     text: {
-      primary: '#212121',    
-      secondary: '#757575',  
-      disabled: '#bdbdbd',  
+      primary: "#212121",
+      secondary: "#757575",
+      disabled: "#bdbdbd",
     },
     background: {
-      default: '#fafafa',    
-      paper: '#ffffff',      
+      default: "#fafafa",
+      paper: "#ffffff",
     },
-    divider: '#e0e0e0',      
+    divider: "#e0e0e0",
+  },
 
   // Typography
   typography: {
@@ -32,29 +32,29 @@ export const theme = {
       bold: 700,
     },
     h1: {
-      fontSize: '2.125rem',
+      fontSize: "2.125rem",
       fontWeight: 300,
       lineHeight: 1.2,
     },
     h2: {
-      fontSize: '1.5rem',
+      fontSize: "1.5rem",
       fontWeight: 400,
       lineHeight: 1.3,
     },
     body1: {
-      fontSize: '1rem',
+      fontSize: "1rem",
       fontWeight: 400,
       lineHeight: 1.5,
     },
     body2: {
-      fontSize: '0.875rem',
+      fontSize: "0.875rem",
       fontWeight: 400,
       lineHeight: 1.43,
     },
     button: {
-      fontSize: '0.875rem',
+      fontSize: "0.875rem",
       fontWeight: 500,
-      textTransform: 'uppercase',
+      textTransform: "uppercase",
     },
   },
 
@@ -63,11 +63,11 @@ export const theme = {
 
   // Breakpoints for responsive design
   breakpoints: {
-    xs: '0px',
-    sm: '600px',
-    md: '960px',
-    lg: '1280px',
-    xl: '1920px',
+    xs: "0px",
+    sm: "600px",
+    md: "960px",
+    lg: "1280px",
+    xl: "1920px",
   },
 
   // Border radius
@@ -77,10 +77,9 @@ export const theme = {
 
   // Shadows
   shadows: [
-    'none',
-    '0px 2px 1px -1px rgba(0,0,0,0.2)',
-    '0px 3px 1px -2px rgba(0,0,0,0.2)',
-    
+    "none",
+    "0px 2px 1px -1px rgba(0,0,0,0.2)",
+    "0px 3px 1px -2px rgba(0,0,0,0.2)",
   ],
 
   // Transitions

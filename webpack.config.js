@@ -19,7 +19,7 @@ module.exports = {
     static: {
       directory: path.join(__dirname, "public"),
     },
-    port: 3001, // Changed from 3000 to avoid port conflict
+    port: 3002, // Changed to 3002 to avoid any port conflicts
     hot: true,
     open: true,
   },
