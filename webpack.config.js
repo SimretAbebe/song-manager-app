@@ -1,4 +1,4 @@
-const path = require("path"); 
+const path = require("path");
 const webpack = require("webpack"); // Webpack core module
 
 module.exports = {
@@ -19,7 +19,7 @@ module.exports = {
     static: {
       directory: path.join(__dirname, "public"),
     },
-    port: 3000,
+    port: 3001, // Changed from 3000 to avoid port conflict
     hot: true,
     open: true,
   },
@@ -27,7 +27,6 @@ module.exports = {
   module: {
     rules: [
       {
-      
         test: /\.(js|jsx)$/, // Match .js and .jsx files
         exclude: /node_modules/,
         use: {
@@ -37,11 +36,13 @@ module.exports = {
               "@babel/preset-env",
               ["@babel/preset-react", { runtime: "automatic" }],
             ],
+            plugins: [
+              "@emotion/babel-plugin", // Enable Emotion CSS-in-JS optimizations
+            ],
           },
         },
       },
       {
-      
         test: /\.(png|jpe?g|gif|svg)$/i,
         type: "asset/resource",
         generator: {
