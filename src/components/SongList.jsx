@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-
 const mockSongs = [
   {
     id: 1,
@@ -9,7 +8,7 @@ const mockSongs = [
     artist: "Mulatu Astatke",
     album: "Ethiopian Modern Instrumentals",
     year: 1966,
-    genre: "Ethio-Jazz"
+    genre: "Ethio-Jazz",
   },
   {
     id: 2,
@@ -17,7 +16,7 @@ const mockSongs = [
     artist: "Mulatu Astatke",
     album: "Mulatu of Ethiopia",
     year: 1972,
-    genre: "Ethio-Jazz"
+    genre: "Ethio-Jazz",
   },
   {
     id: 3,
@@ -25,7 +24,7 @@ const mockSongs = [
     artist: "Asnakech Worku",
     album: "Asnakech",
     year: 1978,
-    genre: "Traditional"
+    genre: "Traditional",
   },
   {
     id: 4,
@@ -33,7 +32,7 @@ const mockSongs = [
     artist: "Mahmoud Ahmed",
     album: "Éthiopiques 7",
     year: 1975,
-    genre: "Traditional"
+    genre: "Traditional",
   },
   {
     id: 5,
@@ -41,8 +40,8 @@ const mockSongs = [
     artist: "Alemayehu Eshete",
     album: "Éthiopiques 9",
     year: 1969,
-    genre: "Traditional"
-  }
+    genre: "Traditional",
+  },
 ];
 
 // Container for the entire song list component
@@ -58,7 +57,6 @@ const ListTitle = styled.h3`
   margin-bottom: ${({ theme }) => theme.spacing(3)};
   text-align: center;
 `;
-
 
 const SongItem = styled.div`
   display: flex;
@@ -77,11 +75,9 @@ const SongItem = styled.div`
   }
 `;
 
-
 const SongInfo = styled.div`
   flex: 1;
 `;
-
 
 const SongTitle = styled.h4`
   margin: 0 0 ${({ theme }) => theme.spacing(1)} 0;
@@ -90,14 +86,12 @@ const SongTitle = styled.h4`
   font-weight: 600;
 `;
 
-
 const SongMeta = styled.p`
   margin: 0;
   color: ${({ theme }) => theme.colors.text.secondary};
   font-size: ${({ theme }) => theme.typography.body2.fontSize};
   line-height: 1.4;
 `;
-
 
 const GenreTag = styled.span`
   background-color: ${({ theme }) => theme.colors.primary};
@@ -118,7 +112,6 @@ const EmptyState = styled.div`
 `;
 
 function SongList() {
-  
   if (!mockSongs || mockSongs.length === 0) {
     return (
       <SongListContainer>
