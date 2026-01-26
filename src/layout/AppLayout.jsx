@@ -2,9 +2,9 @@ import React from "react";
 import styled from "@emotion/styled";
 
 const LayoutWrapper = styled.div`
-  min-height: 100vh; 
+  min-height: 100vh;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   background-color: ${({ theme }) => theme.colors.background.default};
   font-family: ${({ theme }) => theme.typography.fontFamily};
 `;
@@ -16,7 +16,7 @@ const Header = styled.header`
   padding: ${({ theme }) => theme.spacing(2)} ${({ theme }) => theme.spacing(4)};
   position: sticky;
   top: 0;
-  z-index: 100; 
+  z-index: 100;
 `;
 
 const HeaderTitle = styled.h1`
@@ -28,18 +28,17 @@ const HeaderTitle = styled.h1`
 `;
 
 const MainContent = styled.main`
-  flex: 1; 
+  flex: 1;
   padding: ${({ theme }) => theme.spacing(4)};
   display: flex;
-  justify-content: center; 
-  align-items: flex-start; 
-  min-height: calc(100vh - 80px); 
+  justify-content: center;
+  align-items: flex-start;
+  min-height: calc(100vh - 80px);
 `;
-
 
 const ContentContainer = styled.div`
   width: 100%;
-  max-width: 1200px; 
+  max-width: 1200px;
 `;
 
 function AppLayout({ children }) {

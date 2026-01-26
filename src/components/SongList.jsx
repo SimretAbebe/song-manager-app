@@ -1,48 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
-
-const mockSongs = [
-  {
-    id: 1,
-    title: "Tizita",
-    artist: "Mulatu Astatke",
-    album: "Ethiopian Modern Instrumentals",
-    year: 1966,
-    genre: "Ethio-Jazz",
-  },
-  {
-    id: 2,
-    title: "Yegelle Tezeta",
-    artist: "Mulatu Astatke",
-    album: "Mulatu of Ethiopia",
-    year: 1972,
-    genre: "Ethio-Jazz",
-  },
-  {
-    id: 3,
-    title: "Amanaye",
-    artist: "Asnakech Worku",
-    album: "Asnakech",
-    year: 1978,
-    genre: "Traditional",
-  },
-  {
-    id: 4,
-    title: "Tezeta",
-    artist: "Mahmoud Ahmed",
-    album: "Éthiopiques 7",
-    year: 1975,
-    genre: "Traditional",
-  },
-  {
-    id: 5,
-    title: "Fikratchin",
-    artist: "Alemayehu Eshete",
-    album: "Éthiopiques 9",
-    year: 1969,
-    genre: "Traditional",
-  },
-];
 
 // Container for the entire song list component
 const SongListContainer = styled.div`
@@ -103,7 +60,6 @@ const GenreTag = styled.span`
   margin-left: ${({ theme }) => theme.spacing(1)};
 `;
 
-// Empty state when no songs
 const EmptyState = styled.div`
   text-align: center;
   padding: ${({ theme }) => theme.spacing(4)};
@@ -112,7 +68,48 @@ const EmptyState = styled.div`
 `;
 
 function SongList() {
-  if (!mockSongs || mockSongs.length === 0) {
+  const [songs, setSongs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchSongsFromApi = async () => {
+      try {
+        const response = await fetch("/api/songs");
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setSongs(data.songs); // MirageJS returns data in { songs: [...] } format
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSongsFromApi();
+  }, []);
+
+  if (loading) {
+    return (
+      <SongListContainer>
+        <ListTitle>Loading Ethiopian Music...</ListTitle>
+        <EmptyState>Please wait while we fetch the songs.</EmptyState>
+      </SongListContainer>
+    );
+  }
+
+  if (error) {
+    return (
+      <SongListContainer>
+        <ListTitle>Error Loading Music</ListTitle>
+        <EmptyState>Error: {error}. Please try again later.</EmptyState>
+      </SongListContainer>
+    );
+  }
+
+  if (songs.length === 0) {
     return (
       <SongListContainer>
         <ListTitle>Ethiopian Music Collection</ListTitle>
@@ -125,7 +122,7 @@ function SongList() {
     <SongListContainer>
       <ListTitle>Ethiopian Music Collection</ListTitle>
 
-      {mockSongs.map((song) => (
+      {songs.map((song) => (
         <SongItem key={song.id}>
           <SongInfo>
             <SongTitle>{song.title}</SongTitle>
