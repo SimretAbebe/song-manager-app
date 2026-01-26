@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
+import songService from "../services/songService"; // Import our dedicated API service
 
 // Container for the entire song list component
 const SongListContainer = styled.div`
@@ -75,12 +76,8 @@ function SongList() {
   useEffect(() => {
     const fetchSongsFromApi = async () => {
       try {
-        const response = await fetch(`${process.env.API_BASE_URL}/songs`);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        setSongs(data.songs); // MirageJS returns data in { songs: [...] } format
+        const fetchedSongs = await songService.getSongs();
+        setSongs(fetchedSongs);
       } catch (err) {
         setError(err.message);
       } finally {
