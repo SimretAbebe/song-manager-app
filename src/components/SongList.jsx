@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "@emotion/styled";
-import songService from "../services/songService"; // Import our dedicated API service
+import { useSelector, useDispatch } from "react-redux"; // Import hooks for Redux interaction
+import { fetchSongsRequested } from "../store/slices/songsSlice"; // Import action to fetch songs
+import songService from "../services/songService"; // Still used by Saga, but component no longer calls directly
 
 // Container for the entire song list component
 const SongListContainer = styled.div`
@@ -69,26 +71,21 @@ const EmptyState = styled.div`
 `;
 
 function SongList() {
-  const [songs, setSongs] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // 1. Use useSelector to get state from the Redux store
+  const songs = useSelector((state) => state.songs.songs);
+  const isLoading = useSelector((state) => state.songs.isLoading);
+  const error = useSelector((state) => state.songs.error);
 
+  // 2. Use useDispatch to get the dispatch function
+  const dispatch = useDispatch();
+
+  // 3. Dispatch the fetchSongsRequested action when the component mounts
   useEffect(() => {
-    const fetchSongsFromApi = async () => {
-      try {
-        const fetchedSongs = await songService.getSongs();
-        setSongs(fetchedSongs);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+    dispatch(fetchSongsRequested());
+  }, [dispatch]); // Dependency array includes dispatch to satisfy linter, though it's stable
 
-    fetchSongsFromApi();
-  }, []);
-
-  if (loading) {
+  // Conditional rendering based on global Redux state
+  if (isLoading) {
     return (
       <SongListContainer>
         <ListTitle>Loading Ethiopian Music...</ListTitle>
