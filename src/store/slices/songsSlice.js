@@ -1,34 +1,51 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import songService from "../../services/songService"; 
 
+
+
+// 1. Define the initial state for the songs slice.
 const initialState = {
   songs: [], 
   isLoading: false, 
-  error: null, 
+  error: null,
 };
 
 
+export const fetchSongs = createAsyncThunk(
+  'songs/fetchSongs', 
+  async (_, { rejectWithValue }) => {
+    try {
+      const songs = await songService.getSongs(); 
+      return songs;
+    } catch (error) {
+      return rejectWithValue(error.message || 'Failed to fetch songs');
+    }
+  }
+);
+
+// 3. Create the songs slice using createSlice.
 export const songsSlice = createSlice({
   name: "songs", 
   initialState, 
   reducers: {
-    fetchSongsRequested: (state) => {
-      state.isLoading = true; 
-      state.error = null; 
-    },
-    // Reducer for when songs are successfully fetched from the API.
-    fetchSongsSuccess: (state, action) => {
-      state.isLoading = false; 
-      state.songs = action.payload; 
-    },
-    // Reducer for when fetching songs from the API fails.
-    fetchSongsFailed: (state, action) => {
-      state.isLoading = false; 
-      state.error = action.payload; 
-      state.songs = []; 
-    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchSongs.pending, (state) => {
+        state.isLoading = true; 
+        state.error = null; 
+      })
+      .addCase(fetchSongs.fulfilled, (state, action) => {
+        state.isLoading = false; 
+        state.songs = action.payload; 
+      })
+      .addCase(fetchSongs.rejected, (state, action) => {
+        state.isLoading = false; 
+        state.error = action.payload; 
+        state.songs = []; 
+      });
   },
 });
 
-// These are functions you will dispatch from your components or sagas.
-export const { fetchSongsRequested, fetchSongsSuccess, fetchSongsFailed } = songsSlice.actions;
+// 5. Export the reducer function.
 export default songsSlice.reducer;

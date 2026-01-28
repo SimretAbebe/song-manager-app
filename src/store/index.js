@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import createSagaMiddleware from "redux-saga"; 
+// import createSagaMiddleware from "redux-saga"; 
 import songsReducer from "./slices/songsSlice";
-import rootSaga from "./sagas/rootSaga"; 
+// import rootSaga from "./sagas/rootSaga"; 
 
 
-const sagaMiddleware = createSagaMiddleware(); 
+// const sagaMiddleware = createSagaMiddleware(); 
 
 export const store = configureStore({
   reducer: {
@@ -12,9 +12,9 @@ export const store = configureStore({
   },
   devTools: process.env.NODE_ENV !== 'production',
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(sagaMiddleware),
+    getDefaultMiddleware(), 
 });
 
-// Run the root saga. This starts all your watcher sagas.
-sagaMiddleware.run(rootSaga);
+// sagaMiddleware.run(rootSaga); 
+
 

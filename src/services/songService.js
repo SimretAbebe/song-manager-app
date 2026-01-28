@@ -16,11 +16,9 @@ const songService = {
   async getSongs() {
     try {
       const response = await api.get("/songs");
-      // MirageJS returns data in a { songs: [...] } envelope, so we extract it.
       return response.data.songs; 
     } catch (error) {
       console.error("SongService: Failed to fetch songs:", error);
-      // Standardize error message for UI consumption
       throw new Error(error.response?.data?.message || "Failed to retrieve songs.");
     }
   },
@@ -29,7 +27,7 @@ const songService = {
   async addSong(songData) {
     try {
       const response = await api.post("/songs", songData);
-      return response.data; // MirageJS returns the created item directly
+      return response.data; 
     } catch (error) {
       console.error("SongService: Failed to add song:", error);
       throw new Error(error.response?.data?.message || "Failed to add song.");
@@ -40,7 +38,7 @@ const songService = {
   async updateSong(id, songData) {
     try {
       const response = await api.put(`/songs/${id}`, songData);
-      return response.data; // MirageJS returns the updated item directly
+      return response.data; 
     } catch (error) {
       console.error(`SongService: Failed to update song with ID ${id}:`, error);
       throw new Error(error.response?.data?.message || `Failed to update song with ID ${id}.`);
@@ -51,7 +49,6 @@ const songService = {
   async deleteSong(id) {
     try {
       await api.delete(`/songs/${id}`);
-      // A 204 No Content response is expected for successful deletion
     } catch (error) {
       console.error(`SongService: Failed to delete song with ID ${id}:`, error);
       throw new Error(error.response?.data?.message || `Failed to delete song with ID ${id}.`);

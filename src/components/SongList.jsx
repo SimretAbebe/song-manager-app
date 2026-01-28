@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import styled from "@emotion/styled";
-import { useSelector, useDispatch } from "react-redux"; // Import hooks for Redux interaction
-import { fetchSongsRequested } from "../store/slices/songsSlice"; // Import action to fetch songs
-import songService from "../services/songService"; // Still used by Saga, but component no longer calls directly
+import { useSelector, useDispatch } from "react-redux"; 
+import { fetchSongs } from "../store/slices/songsSlice"; 
+import songService from "../services/songService"; 
 
 // Container for the entire song list component
 const SongListContainer = styled.div`
@@ -71,18 +71,18 @@ const EmptyState = styled.div`
 `;
 
 function SongList() {
-  // 1. Use useSelector to get state from the Redux store
+  // Use useSelector to get state from the Redux store
   const songs = useSelector((state) => state.songs.songs);
   const isLoading = useSelector((state) => state.songs.isLoading);
   const error = useSelector((state) => state.songs.error);
 
-  // 2. Use useDispatch to get the dispatch function
+  //  Use useDispatch to get the dispatch function
   const dispatch = useDispatch();
 
-  // 3. Dispatch the fetchSongsRequested action when the component mounts
+  // Dispatch the fetchSongsRequested action when the component mounts
   useEffect(() => {
-    dispatch(fetchSongsRequested());
-  }, [dispatch]); // Dependency array includes dispatch to satisfy linter, though it's stable
+    dispatch(fetchSongs());
+  }, [dispatch]); 
 
   // Conditional rendering based on global Redux state
   if (isLoading) {
