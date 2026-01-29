@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "@emotion/styled";
 import { useSelector, useDispatch } from "react-redux"; 
-import { fetchSongs } from "../store/slices/songsSlice"; 
+import { fetchSongsRequested } from "../store/slices/songsSlice"; 
 import songService from "../services/songService"; 
 
 // Container for the entire song list component
@@ -81,7 +81,7 @@ function SongList() {
 
   // Dispatch the fetchSongsRequested action when the component mounts
   useEffect(() => {
-    dispatch(fetchSongs());
+    dispatch(fetchSongsRequested());
   }, [dispatch]); 
 
   // Conditional rendering based on global Redux state
