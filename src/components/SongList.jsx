@@ -1,8 +1,11 @@
 import React, { useEffect } from "react";
 import styled from "@emotion/styled";
-import { useSelector, useDispatch } from "react-redux"; 
-import { fetchSongsRequested } from "../store/slices/songsSlice"; 
-import songService from "../services/songService"; 
+import { useSelector, useDispatch } from "react-redux";
+import {
+  fetchSongsRequested,
+  deleteSongRequested,
+} from "../store/slices/songsSlice";
+import songService from "../services/songService";
 
 // Container for the entire song list component
 const SongListContainer = styled.div`
@@ -70,6 +73,37 @@ const EmptyState = styled.div`
   font-size: ${({ theme }) => theme.typography.body1.fontSize};
 `;
 
+const SongActions = styled.div`
+  display: flex;
+  gap: ${({ theme }) => theme.spacing(1)};
+`;
+
+const Button = styled.button`
+  padding: ${({ theme }) => theme.spacing(0.75)} ${({ theme }) => theme.spacing(1.5)};
+  border: none;
+  border-radius: ${({ theme }) => theme.shape.borderRadius}px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  background-color: ${(props) =>
+    props.primary
+      ? props.theme.colors.primary
+      : props.danger
+      ? props.theme.colors.error
+      : props.theme.colors.action.disabledBackground};
+  color: white;
+
+  &:hover {
+    background-color: ${(props) =>
+    props.primary
+      ? "#1565c0"
+      : props.danger
+      ? "#d32f2f"
+      : props.theme.colors.action.disabledBackground};
+  }
+`;
+
 function SongList() {
   // Use useSelector to get state from the Redux store
   const songs = useSelector((state) => state.songs.songs);
@@ -82,7 +116,13 @@ function SongList() {
   // Dispatch the fetchSongsRequested action when the component mounts
   useEffect(() => {
     dispatch(fetchSongsRequested());
-  }, [dispatch]); 
+  }, [dispatch]);
+
+  const handleDelete = (id) => {
+    if (window.confirm("Are you sure you want to delete this song?")) {
+      dispatch(deleteSongRequested(id));
+    }
+  };
 
   // Conditional rendering based on global Redux state
   if (isLoading) {
@@ -125,6 +165,10 @@ function SongList() {
               <GenreTag>{song.genre}</GenreTag>
             </SongMeta>
           </SongInfo>
+          <SongActions>
+            <Button primary>Edit</Button>
+            <Button danger onClick={() => handleDelete(song.id)}>Delete</Button>
+          </SongActions>
         </SongItem>
       ))}
     </SongListContainer>

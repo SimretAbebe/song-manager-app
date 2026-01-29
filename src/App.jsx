@@ -2,6 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import AppLayout from "./layout/AppLayout";
 import SongList from "./components/SongList";
+import SongForm from "./components/SongForm"; 
 
 // Welcome section title
 const PageTitle = styled.h2`
@@ -56,6 +57,7 @@ function App() {
         </Subtitle>
 
         <SongList />
+        <SongForm /> 
 
         <FeatureCard>
           <h3 style={{ marginTop: 0, color: "#1976d2" }}>
