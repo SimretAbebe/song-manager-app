@@ -6,7 +6,8 @@ const initialState = {
   songs: [],
   isLoading: false,
   error: null,
-};
+  currentPage: 1, 
+  songsPerPage: 5, 
 
 export const songsSlice = createSlice({
   name: "songs",
@@ -74,6 +75,10 @@ export const songsSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
+
+    setCurrentPage: (state, action) => {
+      state.currentPage = action.payload; // Set the current page number
+    },
   },
 });
 
@@ -90,6 +95,7 @@ export const {
   deleteSongRequested,
   deleteSongSuccess,
   deleteSongFailed,
+  setCurrentPage,
 } = songsSlice.actions;
 
-export default songsSlice.reducer;
+export default songsSlice.reducer ;

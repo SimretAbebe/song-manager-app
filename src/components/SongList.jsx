@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   fetchSongsRequested,
   deleteSongRequested,
+  setCurrentPage,
 } from "../store/slices/songsSlice";
 import songService from "../services/songService";
 
@@ -73,6 +74,34 @@ const EmptyState = styled.div`
   font-size: ${({ theme }) => theme.typography.body1.fontSize};
 `;
 
+const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: ${({ theme }) => theme.spacing(1)};
+  margin-top: ${({ theme }) => theme.spacing(3)};
+`;
+
+const PageButton = styled.button`
+  padding: ${({ theme }) => theme.spacing(1)} ${({ theme }) => theme.spacing(2)};
+  border: 1px solid ${({ theme }) => theme.colors.divider};
+  border-radius: ${({ theme }) => theme.shape.borderRadius}px;
+  background-color: ${(props) =>
+    props.active ? props.theme.colors.primary : props.theme.colors.background.paper};
+  color: ${(props) => (props.active ? "white" : props.theme.colors.text.primary)};
+  cursor: pointer;
+  font-size: ${({ theme }) => theme.typography.body2.fontSize};
+
+  &:hover {
+    background-color: ${(props) =>
+    props.active ? props.theme.colors.primary : props.theme.colors.action.hover};
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+`;
+
 const SongActions = styled.div`
   display: flex;
   gap: ${({ theme }) => theme.spacing(1)};
@@ -109,11 +138,11 @@ function SongList({ onEditClick }) {
   const songs = useSelector((state) => state.songs.songs);
   const isLoading = useSelector((state) => state.songs.isLoading);
   const error = useSelector((state) => state.songs.error);
+  const currentPage = useSelector((state) => state.songs.currentPage);
+  const songsPerPage = useSelector((state) => state.songs.songsPerPage);
 
-  //  Use useDispatch to get the dispatch function
   const dispatch = useDispatch();
 
-  // Dispatch the fetchSongsRequested action when the component mounts
   useEffect(() => {
     dispatch(fetchSongsRequested());
   }, [dispatch]);
@@ -124,7 +153,14 @@ function SongList({ onEditClick }) {
     }
   };
 
-  // Conditional rendering based on global Redux state
+  // Pagination Logic
+  const indexOfLastSong = currentPage * songsPerPage;
+  const indexOfFirstSong = indexOfLastSong - songsPerPage;
+  const currentSongs = songs.slice(indexOfFirstSong, indexOfLastSong);
+  const totalPages = Math.ceil(songs.length / songsPerPage);
+
+  const paginate = (pageNumber) => dispatch(setCurrentPage(pageNumber));
+
   if (isLoading) {
     return (
       <SongListContainer>
@@ -156,7 +192,7 @@ function SongList({ onEditClick }) {
     <SongListContainer>
       <ListTitle>Ethiopian Music Collection</ListTitle>
 
-      {songs.map((song) => (
+      {currentSongs.map((song) => (
         <SongItem key={song.id}>
           <SongInfo>
             <SongTitle>{song.title}</SongTitle>
@@ -171,6 +207,19 @@ function SongList({ onEditClick }) {
           </SongActions>
         </SongItem>
       ))}
+
+      <PaginationContainer>
+        {[...Array(totalPages)].map((_, index) => (
+          <PageButton
+            key={index + 1}
+            onClick={() => paginate(index + 1)}
+            active={index + 1 === currentPage}
+            disabled={isLoading}
+          >
+            {index + 1}
+          </PageButton>
+        ))}
+      </PaginationContainer>
     </SongListContainer>
   );
 }
