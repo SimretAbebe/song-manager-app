@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import AppLayout from "./layout/AppLayout";
 import SongList from "./components/SongList";
-import SongForm from "./components/SongForm"; 
+import SongForm from "./components/SongForm";
 
-// Welcome section title
+
 const PageTitle = styled.h2`
   color: ${({ theme }) => theme.colors.primary};
   font-size: ${({ theme }) => theme.typography.h2.fontSize};
@@ -13,7 +13,7 @@ const PageTitle = styled.h2`
   text-align: center;
 `;
 
-// Descriptive subtitle text
+
 const Subtitle = styled.p`
   color: ${({ theme }) => theme.colors.text.secondary};
   font-size: ${({ theme }) => theme.typography.body1.fontSize};
@@ -23,7 +23,7 @@ const Subtitle = styled.p`
   max-width: 600px;
 `;
 
-// Feature showcase card
+
 const FeatureCard = styled.div`
   background-color: ${({ theme }) => theme.colors.background.paper};
   border-radius: ${({ theme }) => theme.shape.borderRadius}px;
@@ -34,7 +34,7 @@ const FeatureCard = styled.div`
   margin: 0 auto;
 `;
 
-// Feature list styling
+
 const FeatureList = styled.ul`
   margin: ${({ theme }) => theme.spacing(2)} 0 0 0;
   padding-left: ${({ theme }) => theme.spacing(3)};
@@ -46,6 +46,16 @@ const FeatureList = styled.ul`
 `;
 
 function App() {
+  const [editingSong, setEditingSong] = useState(null); 
+
+  const handleEditClick = (song) => {
+    setEditingSong(song);
+  };
+
+  const handleFormClose = () => {
+    setEditingSong(null);
+  };
+
   return (
     <AppLayout>
       <div>
@@ -56,8 +66,8 @@ function App() {
           architecture.
         </Subtitle>
 
-        <SongList />
-        <SongForm /> 
+        <SongList onEditClick={handleEditClick} />
+        <SongForm editingSong={editingSong} onFormClose={handleFormClose} /> 
 
         <FeatureCard>
           <h3 style={{ marginTop: 0, color: "#1976d2" }}>

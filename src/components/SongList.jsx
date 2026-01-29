@@ -7,12 +7,12 @@ import {
 } from "../store/slices/songsSlice";
 import songService from "../services/songService";
 
-// Container for the entire song list component
+
 const SongListContainer = styled.div`
   width: 100%;
 `;
 
-// Section title
+
 const ListTitle = styled.h3`
   color: ${({ theme }) => theme.colors.primary};
   font-size: ${({ theme }) => theme.typography.h2.fontSize};
@@ -104,7 +104,7 @@ const Button = styled.button`
   }
 `;
 
-function SongList() {
+function SongList({ onEditClick }) {
   // Use useSelector to get state from the Redux store
   const songs = useSelector((state) => state.songs.songs);
   const isLoading = useSelector((state) => state.songs.isLoading);
@@ -166,7 +166,7 @@ function SongList() {
             </SongMeta>
           </SongInfo>
           <SongActions>
-            <Button primary>Edit</Button>
+            <Button primary onClick={() => onEditClick(song)}>Edit</Button>
             <Button danger onClick={() => handleDelete(song.id)}>Delete</Button>
           </SongActions>
         </SongItem>

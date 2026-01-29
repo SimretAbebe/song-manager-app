@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import { useDispatch, useSelector } from "react-redux";
-import { addSongRequested } from "../store/slices/songsSlice"; // Action to add song
+import { addSongRequested, updateSongRequested } from "../store/slices/songsSlice";
 
-// Styled components for the Add Song form
+
 const FormContainer = styled.form`
   background-color: ${({ theme }) => theme.colors.background.paper};
   border-radius: ${({ theme }) => theme.shape.borderRadius}px;
@@ -89,43 +89,45 @@ const ErrorMessage = styled.p`
   text-align: center;
 `;
 
-function SongForm() {
-  // 1. Local state for form inputs (non-optimistic update)
-  const [formData, setFormData] = useState({
+function SongForm({ editingSong, onFormClose }) {
+  const initialFormState = {
     title: '',
     artist: '',
     album: '',
     year: '',
     genre: '',
-  });
+  };
+  const [formData, setFormData] = useState(initialFormState); 
 
   const dispatch = useDispatch();
-  const isLoading = useSelector((state) => state.songs.isLoading); // Use global loading state
-  const error = useSelector((state) => state.songs.error); // Use global error state
+  const isLoading = useSelector((state) => state.songs.isLoading);
+  const error = useSelector((state) => state.songs.error);
 
-  // Handle input changes, update local form state
+
+  useEffect(() => {
+    if (editingSong) {
+      setFormData(editingSong);
+    } else {
+      setFormData(initialFormState); 
+    }
+  }, [editingSong]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Basic validation (more robust validation would be a separate task)
     if (formData.title && formData.artist && formData.year) {
-      // Dispatch the addSongRequested action with form data
-      dispatch(addSongRequested(formData));
-      // Clear form after dispatch, assuming API call will succeed (non-optimistic)
-      setFormData({
-        title: '',
-        artist: '',
-        album: '',
-        year: '',
-        genre: '',
-      });
+      if (editingSong) {
+        dispatch(updateSongRequested({ id: editingSong.id, ...formData }));
+      } else {
+        dispatch(addSongRequested(formData));
+      }
+      setFormData(initialFormState);
+      onFormClose(); 
     } else {
-      // This error would typically be handled by a local form validation state or a toast
       console.error("Form validation failed: Title, Artist, and Year are required.");
     }
   };
@@ -136,7 +138,7 @@ function SongForm() {
 
   return (
     <FormContainer onSubmit={handleSubmit}>
-      <FormTitle>Add New Ethiopian Song</FormTitle>
+      <FormTitle>{editingSong ? 'Edit Song' : 'Add New Ethiopian Song'}</FormTitle>
       
       <FormGroup>
         <Label htmlFor="title">Title:</Label>
@@ -206,8 +208,13 @@ function SongForm() {
       </FormGroup>
 
       <Button type="submit" disabled={isLoading}>
-        {isLoading ? 'Adding Song...' : 'Add Song'}
+        {isLoading ? (editingSong ? 'Updating...' : 'Adding Song...') : (editingSong ? 'Update Song' : 'Add Song')}
       </Button>
+      {editingSong && (
+        <Button type="button" onClick={onFormClose} disabled={isLoading}>
+          Cancel
+        </Button>
+      )}
 
       {error && <ErrorMessage>Error: {error}</ErrorMessage>}
     </FormContainer>
