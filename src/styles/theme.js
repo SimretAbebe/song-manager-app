@@ -1,6 +1,4 @@
-// Theme configuration for the Song Manager App
 export const theme = {
-  // Color palette
   colors: {
     primary: "#1976d2",
     secondary: "#dc004e",
@@ -21,7 +19,7 @@ export const theme = {
     divider: "#e0e0e0",
     action: {
       active: "rgba(0, 0, 0, 0.54)",
-      hover: "rgba(0, 0, 0, 0.04)", // Lighter hover for general elements
+      hover: "rgba(0, 0, 0, 0.04)", 
       hoverOpacity: 0.04,
       selected: "rgba(0, 0, 0, 0.08)",
       selectedOpacity: 0.08,
@@ -34,7 +32,7 @@ export const theme = {
     },
   },
 
-  // Typography
+  
   typography: {
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
     fontSize: 14,
@@ -71,10 +69,10 @@ export const theme = {
     },
   },
 
-  // Spacing system (8px base unit)
+  
   spacing: (factor) => `${8 * factor}px`,
 
-  // Breakpoints for responsive design
+
   breakpoints: {
     xs: "0px",
     sm: "600px",
@@ -83,19 +81,19 @@ export const theme = {
     xl: "1920px",
   },
 
-  // Border radius
+  
   shape: {
     borderRadius: 4,
   },
 
-  // Shadows
+
   shadows: [
     "none",
     "0px 2px 1px -1px rgba(0,0,0,0.2)",
     "0px 3px 1px -2px rgba(0,0,0,0.2)",
   ],
 
-  // Transitions
+ 
   transitions: {
     duration: {
       shortest: 150,
