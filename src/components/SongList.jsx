@@ -74,6 +74,21 @@ const EmptyState = styled.div`
   font-size: ${({ theme }) => theme.typography.body1.fontSize};
 `;
 
+const Spinner = styled.div`
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: ${({ theme }) => theme.colors.primary};
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+  margin: ${({ theme }) => theme.spacing(4)} auto;
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+`;
+
 const PaginationContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -164,8 +179,9 @@ function SongList({ onEditClick }) {
   if (isLoading) {
     return (
       <SongListContainer>
-        <ListTitle>Loading Ethiopian Music...</ListTitle>
-        <EmptyState>Please wait while we fetch the songs.</EmptyState>
+        <ListTitle>Fetching Ethiopian Music...</ListTitle>
+        <Spinner />
+        <EmptyState>Please wait while we load your songs.</EmptyState>
       </SongListContainer>
     );
   }
@@ -175,17 +191,26 @@ function SongList({ onEditClick }) {
       <SongListContainer>
         <ListTitle>Error Loading Music</ListTitle>
         <EmptyState>Error: {error}. Please try again later.</EmptyState>
+        <Button onClick={() => dispatch(fetchSongsRequested())}>Retry</Button>
       </SongListContainer>
     );
   }
 
-  if (songs.length === 0) {
+  if (songs.length === 0 && !isLoading && !error) {
     return (
       <SongListContainer>
         <ListTitle>Ethiopian Music Collection</ListTitle>
-        <EmptyState>No songs available. Add some Ethiopian music!</EmptyState>
+        <EmptyState>
+          No songs available. Start by adding a new Ethiopian song above!
+        </EmptyState>
       </SongListContainer>
     );
+  }
+
+  // If there are songs but currentSongs is empty (e.g., deleted last song on page)
+  if (currentSongs.length === 0 && songs.length > 0 && currentPage > 1) {
+    dispatch(setCurrentPage(currentPage - 1)); // Go to previous page if current page is empty
+    return null; // Don't render anything while redirecting page
   }
 
   return (
@@ -202,8 +227,8 @@ function SongList({ onEditClick }) {
             </SongMeta>
           </SongInfo>
           <SongActions>
-            <Button primary onClick={() => onEditClick(song)}>Edit</Button>
-            <Button danger onClick={() => handleDelete(song.id)}>Delete</Button>
+            <Button primary onClick={() => onEditClick(song)} disabled={isLoading}>Edit</Button>
+            <Button danger onClick={() => handleDelete(song.id)} disabled={isLoading}>Delete</Button>
           </SongActions>
         </SongItem>
       ))}

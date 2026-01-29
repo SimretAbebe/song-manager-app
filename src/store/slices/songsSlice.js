@@ -8,6 +8,7 @@ const initialState = {
   error: null,
   currentPage: 1, 
   songsPerPage: 5, 
+}; 
 
 export const songsSlice = createSlice({
   name: "songs",
@@ -77,7 +78,7 @@ export const songsSlice = createSlice({
     },
 
     setCurrentPage: (state, action) => {
-      state.currentPage = action.payload; // Set the current page number
+      state.currentPage = action.payload; 
     },
   },
 });

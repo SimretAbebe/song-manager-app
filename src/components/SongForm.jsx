@@ -97,12 +97,12 @@ function SongForm({ editingSong, onFormClose }) {
     year: '',
     genre: '',
   };
-  const [formData, setFormData] = useState(initialFormState); 
+  const [formData, setFormData] = useState(initialFormState);
 
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.songs.isLoading);
   const error = useSelector((state) => state.songs.error);
-
+  const [localErrorMessage, setLocalErrorMessage] = useState(null); 
 
   useEffect(() => {
     if (editingSong) {
@@ -110,27 +110,32 @@ function SongForm({ editingSong, onFormClose }) {
     } else {
       setFormData(initialFormState); 
     }
+    setLocalErrorMessage(null); 
   }, [editingSong]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
+    setLocalErrorMessage(null); 
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (formData.title && formData.artist && formData.year) {
-      if (editingSong) {
-        dispatch(updateSongRequested({ id: editingSong.id, ...formData }));
-      } else {
-        dispatch(addSongRequested(formData));
-      }
-      setFormData(initialFormState);
-      onFormClose(); 
-    } else {
-      console.error("Form validation failed: Title, Artist, and Year are required.");
+    setLocalErrorMessage(null); 
+
+    if (!formData.title || !formData.artist || !formData.year) {
+      setLocalErrorMessage("Title, Artist, and Year are required.");
+      return;
     }
-  };
+
+    if (editingSong) {
+      dispatch(updateSongRequested({ id: editingSong.id, ...formData }));
+    } else {
+      dispatch(addSongRequested(formData));
+    }
+    setFormData(initialFormState);
+    onFormClose();
+  }; 
 
   const ethiopianGenres = [
     "Ethio-Jazz", "Traditional", "Ethiopian Pop", "Blues", "Soul"
@@ -216,6 +221,7 @@ function SongForm({ editingSong, onFormClose }) {
         </Button>
       )}
 
+      {localErrorMessage && <ErrorMessage>{localErrorMessage}</ErrorMessage>}
       {error && <ErrorMessage>Error: {error}</ErrorMessage>}
     </FormContainer>
   );
