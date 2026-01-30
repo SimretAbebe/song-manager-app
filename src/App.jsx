@@ -1,50 +1,71 @@
 import React, { Suspense, lazy, useState } from "react";
 import styled from "@emotion/styled";
 import AppLayout from "./layout/AppLayout";
-// import SongList from "./components/SongList"; // Commented out as we are lazy loading it
 import SongForm from "./components/SongForm"; 
 
-// Lazy load the SongList component. This tells Webpack to create a separate chunk for it.
 const LazySongList = lazy(() => import("./components/SongList"));
 
-// Page title - now smaller since header has the main title
-const PageTitle = styled.h2`
-  color: ${({ theme }) => theme.colors.primary};
-  font-size: ${({ theme }) => theme.typography.h2.fontSize};
-  font-weight: ${({ theme }) => theme.typography.h2.fontWeight};
-  margin-bottom: ${({ theme }) => theme.spacing(2)};
-  text-align: center;
+const ContentArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  padding: ${({ theme }) => theme.spacing(4)} 0; 
+  width: 100%;
+
+  background: linear-gradient(145deg, ${({ theme }) => theme.colors.background.paper}, ${({ theme }) => theme.colors.background.default});
+  border-radius: ${({ theme }) => theme.shape.borderRadius * 2}px;
+  box-shadow: ${({ theme }) => theme.shadows[4]}; 
+  max-width: 1000px; 
+  margin: ${({ theme }) => theme.spacing(4)} auto; 
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    margin: ${({ theme }) => theme.spacing(2)} auto;
+    border-radius: ${({ theme }) => theme.shape.borderRadius}px;
+    box-shadow: ${({ theme }) => theme.shadows[2]};
+  }
 `;
 
-// Descriptive subtitle text
+const PageTitle = styled.h2`
+  color: ${({ theme }) => theme.colors.secondary}; 
+  font-size: ${({ theme }) => theme.typography.h1.fontSize}; 
+  font-weight: ${({ theme }) => theme.typography.h1.fontWeight};
+  margin-bottom: ${({ theme }) => theme.spacing(2)};
+  text-align: center;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1); 
+`;
+
 const Subtitle = styled.p`
   color: ${({ theme }) => theme.colors.text.secondary};
   font-size: ${({ theme }) => theme.typography.body1.fontSize};
   line-height: ${({ theme }) => theme.typography.body1.lineHeight};
-  margin-bottom: ${({ theme }) => theme.spacing(3)};
+  margin-bottom: ${({ theme }) => theme.spacing(4)}; 
   text-align: center;
-  max-width: 600px; /* Constrain text width for readability */
+  max-width: 700px; 
+  padding: 0 ${({ theme }) => theme.spacing(2)}; 
+
+  &::before { 
+    font-size: 1.2em;
+    vertical-align: middle;
+    margin-right: ${({ theme }) => theme.spacing(1)};
+  }
+  &::after { 
+    font-size: 1.2em;
+    vertical-align: middle;
+    margin-left: ${({ theme }) => theme.spacing(1)};
+  }
 `;
 
-// Feature showcase card
-const FeatureCard = styled.div`
-  background-color: ${({ theme }) => theme.colors.background.paper};
+const SongListWrapper = styled.div`
+  background-color: transparent; 
   border-radius: ${({ theme }) => theme.shape.borderRadius}px;
-  padding: ${({ theme }) => theme.spacing(3)};
-  box-shadow: ${({ theme }) => theme.shadows[1]};
-  border: 1px solid ${({ theme }) => theme.colors.divider};
-  max-width: 600px;
-  margin: 0 auto;
-`;
+  padding: ${({ theme }) => theme.spacing(4)}; 
+  border: none; 
+  width: 100%;
+  max-width: 900px; 
+  margin-top: ${({ theme }) => theme.spacing(4)}; 
 
-// Feature list styling
-const FeatureList = styled.ul`
-  margin: ${({ theme }) => theme.spacing(2)} 0 0 0;
-  padding-left: ${({ theme }) => theme.spacing(3)};
-
-  li {
-    margin-bottom: ${({ theme }) => theme.spacing(1)};
-    color: ${({ theme }) => theme.colors.text.primary};
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding: ${({ theme }) => theme.spacing(2)}; 
   }
 `;
 
@@ -61,35 +82,22 @@ function App() {
 
   return (
     <AppLayout>
-      <div>
+      <ContentArea>
         <PageTitle>Welcome to Song Manager</PageTitle>
         <Subtitle>
-          A modern React application with Emotion theming and Redux state
-          management. Built with professional development practices and scalable
-          architecture.
+          A modern React application for managing your music collection.
+          Enjoy Ethiopian songs with full CRUD operations, all powered by Redux Toolkit, Redux-Saga, and Emotion.
         </Subtitle>
 
-        {/* Suspense is required when using React.lazy to show fallback UI while the component code loads */}
-        <Suspense fallback={<div>Loading Song List asynchronously...</div>}>
-          <LazySongList onEditClick={handleEditClick} />
-        </Suspense>
+        {/* Song list with enhanced styling and lazy loading */}
+        <SongListWrapper>
+          <Suspense fallback={<div>Loading your music library...</div>}>
+            <LazySongList onEditClick={handleEditClick} />
+          </Suspense>
+        </SongListWrapper>
 
-        <SongForm editingSong={editingSong} onFormClose={handleFormClose} /> 
-
-        <FeatureCard>
-          <h3 style={{ marginTop: 0, color: "#1976d2" }}>
-            🚀 Features Coming Soon:
-          </h3>
-          <FeatureList>
-            <li>🎵 Full CRUD operations for songs</li>
-            <li>📄 Paginated song list with search</li>
-            <li>🔄 Redux Toolkit + Redux-Saga for state management</li>
-            <li>🎨 Advanced Emotion theming with dark mode</li>
-            <li>📱 Fully responsive design</li>
-            <li>🌐 REST API integration</li>
-          </FeatureList>
-        </FeatureCard>
-      </div>
+        <SongForm editingSong={editingSong} onFormClose={handleFormClose} />
+      </ContentArea>
     </AppLayout>
   );
 }

@@ -1,10 +1,16 @@
 export const theme = {
   colors: {
-    primary: "#1976d2",
+    primary: {
+      main: "#1976d2", 
+      dark: "#1565c0", 
+    },
     secondary: "#dc004e",
     success: "#4caf50",
     warning: "#ff9800",
-    error: "#f44336",
+    error: {
+      main: "#f44336", 
+      dark: "#d32f2f", 
+    },
     info: "#2196f3",
 
     text: {
@@ -51,6 +57,11 @@ export const theme = {
       fontSize: "1.5rem",
       fontWeight: 400,
       lineHeight: 1.3,
+    },
+    h3: {
+      fontSize: "1.25rem", 
+      fontWeight: 500,
+      lineHeight: 1.6,
     },
     body1: {
       fontSize: "1rem",

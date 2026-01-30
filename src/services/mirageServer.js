@@ -5,12 +5,12 @@ export function makeServer({ environment = "development" } = {}) {
   return createServer({
     environment,
 
-    // Models
+    
     models: {
       song: Model,
     },
 
-    // Factories
+   
     factories: {
       song: Factory.extend({
         title() {
@@ -31,11 +31,11 @@ export function makeServer({ environment = "development" } = {}) {
           const ethiopianArtists = [
             "Mulatu Astatke",
             "Mahmoud Ahmed",
-            "Gigi Shibabaw",
+            "Alemayehu Eshete",
             "Aster Aweke",
             "Tilahun Gessesse",
             "Asnaketch Worku",
-            "Alemayehu Eshete",
+            "Gigi Shibabaw",
             "Ali Birra",
           ];
           return faker.helpers.arrayElement(ethiopianArtists);

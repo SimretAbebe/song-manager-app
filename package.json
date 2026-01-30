@@ -16,6 +16,9 @@
     "@babel/preset-env": "^7.28.6",
     "@babel/preset-react": "^7.28.5",
     "@babel/preset-typescript": "^7.28.5",
+    "@emotion/babel-plugin": "^11.13.5",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "babel-jest": "^30.2.0",
@@ -27,9 +30,6 @@
     "webpack-dev-server": "^5.2.3"
   },
   "dependencies": {
-    "@emotion/babel-plugin": "^11.13.5",
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
     "@faker-js/faker": "^10.2.0",
     "@reduxjs/toolkit": "^2.11.2",
     "axios": "^1.13.3",

@@ -19,7 +19,7 @@ module.exports = {
     static: {
       directory: path.join(__dirname, "public"),
     },
-    port: 3003, // Changed to 3003 to avoid any port conflicts
+    port: 3003, // Keep this port to avoid conflicts
     hot: true,
     open: true,
   },
@@ -37,11 +37,12 @@ module.exports = {
               ["@babel/preset-react", { runtime: "automatic" }],
             ],
             plugins: [
-              "@emotion/babel-plugin", // Enable Emotion CSS-in-JS optimizations
+              "@emotion/babel-plugin", // Re-enable Emotion CSS-in-JS optimizations
             ],
           },
         },
       },
+      // Removed the CSS loader rule for PostCSS/Tailwind
       {
         test: /\.(png|jpe?g|gif|svg)$/i,
         type: "asset/resource",

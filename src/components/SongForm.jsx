@@ -3,26 +3,33 @@ import styled from "@emotion/styled";
 import { useDispatch, useSelector } from "react-redux";
 import { addSongRequested, updateSongRequested } from "../store/slices/songsSlice";
 
-
 const FormContainer = styled.form`
   background-color: ${({ theme }) => theme.colors.background.paper};
-  border-radius: ${({ theme }) => theme.shape.borderRadius}px;
-  padding: ${({ theme }) => theme.spacing(3)};
-  box-shadow: ${({ theme }) => theme.shadows[1]};
+  border-radius: ${({ theme }) => theme.shape.borderRadius * 2}px; /* More rounded */
+  padding: ${({ theme }) => theme.spacing(4)}; /* Increased padding */
+  box-shadow: ${({ theme }) => theme.shadows[4]}; /* More prominent shadow */
   border: 1px solid ${({ theme }) => theme.colors.divider};
-  max-width: 500px;
-  margin: ${({ theme }) => theme.spacing(4)} auto;
+  max-width: 550px; /* Slightly wider form */
+  margin: ${({ theme }) => theme.spacing(6)} auto; /* More margin top/bottom */
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing(2)};
+  gap: ${({ theme }) => theme.spacing(3)}; /* Increased gap between form groups */
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    margin: ${({ theme }) => theme.spacing(4)} auto;
+    padding: ${({ theme }) => theme.spacing(3)};
+    border-radius: ${({ theme }) => theme.shape.borderRadius}px;
+    box-shadow: ${({ theme }) => theme.shadows[2]};
+  }
 `;
 
 const FormTitle = styled.h3`
-  color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.primary.main};
   font-size: ${({ theme }) => theme.typography.h2.fontSize};
   font-weight: ${({ theme }) => theme.typography.h2.fontWeight};
-  margin: 0 0 ${({ theme }) => theme.spacing(2)} 0;
+  margin: 0 0 ${({ theme }) => theme.spacing(3)} 0; /* More margin below title */
   text-align: center;
+  text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.1);
 `;
 
 const FormGroup = styled.div`
@@ -31,9 +38,10 @@ const FormGroup = styled.div`
 `;
 
 const Label = styled.label`
-  font-size: ${({ theme }) => theme.typography.body2.fontSize};
-  color: ${({ theme }) => theme.colors.text.secondary};
-  margin-bottom: ${({ theme }) => theme.spacing(0.5)};
+  font-size: ${({ theme }) => theme.typography.body1.fontSize}; /* Slightly larger label */
+  color: ${({ theme }) => theme.colors.text.primary};
+  margin-bottom: ${({ theme }) => theme.spacing(1)};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
 `;
 
 const Input = styled.input`
@@ -41,10 +49,13 @@ const Input = styled.input`
   border: 1px solid ${({ theme }) => theme.colors.divider};
   border-radius: ${({ theme }) => theme.shape.borderRadius}px;
   font-size: ${({ theme }) => theme.typography.body1.fontSize};
+  transition: all 0.2s ease;
+  background-color: ${({ theme }) => theme.colors.background.default};
+
   &:focus {
     outline: none;
-    border-color: ${({ theme }) => theme.colors.primary};
-    box-shadow: 0 0 0 1px ${({ theme }) => theme.colors.primary};
+    border-color: ${({ theme }) => theme.colors.primary.main};
+    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.primary.main}; /* Stronger focus glow */
   }
 `;
 
@@ -53,40 +64,63 @@ const Select = styled.select`
   border: 1px solid ${({ theme }) => theme.colors.divider};
   border-radius: ${({ theme }) => theme.shape.borderRadius}px;
   font-size: ${({ theme }) => theme.typography.body1.fontSize};
+  transition: all 0.2s ease;
+  background-color: ${({ theme }) => theme.colors.background.default};
+
   &:focus {
     outline: none;
-    border-color: ${({ theme }) => theme.colors.primary};
-    box-shadow: 0 0 0 1px ${({ theme }) => theme.colors.primary};
+    border-color: ${({ theme }) => theme.colors.primary.main};
+    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.primary.main};
   }
 `;
 
 const Button = styled.button`
   padding: ${({ theme }) => theme.spacing(1.5)} ${({ theme }) => theme.spacing(3)};
-  background-color: ${({ theme }) => theme.colors.primary};
+  background-color: ${({ theme }) => theme.colors.primary.main};
   color: white;
   border: none;
-  border-radius: ${({ theme }) => theme.shape.borderRadius}px;
+  border-radius: ${({ theme }) => theme.shape.borderRadius * 1.5}px; /* More rounded */
   font-size: ${({ theme }) => theme.typography.button.fontSize};
   font-weight: ${({ theme }) => theme.typography.button.fontWeight};
   text-transform: uppercase;
   cursor: pointer;
-  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  margin-top: ${({ theme }) => theme.spacing(2)}; /* Margin for buttons */
 
   &:hover {
-    background-color: #1565c0; // Slightly darker primary
+    background-color: ${({ theme }) => theme.colors.primary.dark}; 
+    transform: translateY(-2px); /* Lift effect */
     box-shadow: ${({ theme }) => theme.shadows[2]};
   }
 
   &:disabled {
-    background-color: ${({ theme }) => theme.colors.text.disabled};
+    background-color: ${({ theme }) => theme.colors.action.disabledBackground};
     cursor: not-allowed;
+    opacity: 0.7;
+    transform: none;
+    box-shadow: none;
+  }
+
+  &.cancel-button {
+    background-color: ${({ theme }) => theme.colors.text.secondary};
+    margin-top: ${({ theme }) => theme.spacing(1)};
+
+    &:hover {
+      background-color: #616161; /* Darker gray for cancel hover */
+      transform: translateY(-2px);
+      box-shadow: ${({ theme }) => theme.shadows[2]};
+    }
+    &:disabled {
+      background-color: ${({ theme }) => theme.colors.action.disabledBackground};
+    }
   }
 `;
 
 const ErrorMessage = styled.p`
-  color: ${({ theme }) => theme.colors.error};
+  color: ${({ theme }) => theme.colors.error.main};
   font-size: ${({ theme }) => theme.typography.body2.fontSize};
   text-align: center;
+  margin-top: ${({ theme }) => theme.spacing(1)};
 `;
 
 function SongForm({ editingSong, onFormClose }) {
@@ -101,7 +135,6 @@ function SongForm({ editingSong, onFormClose }) {
 
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.songs.isLoading);
-  const error = useSelector((state) => state.songs.error);
   const [localErrorMessage, setLocalErrorMessage] = useState(null); 
 
   useEffect(() => {
@@ -126,7 +159,7 @@ function SongForm({ editingSong, onFormClose }) {
     if (!formData.title || !formData.artist || !formData.year) {
       setLocalErrorMessage("Title, Artist, and Year are required.");
       return;
-    }
+    };
 
     if (editingSong) {
       dispatch(updateSongRequested({ id: editingSong.id, ...formData }));
@@ -216,13 +249,12 @@ function SongForm({ editingSong, onFormClose }) {
         {isLoading ? (editingSong ? 'Updating...' : 'Adding Song...') : (editingSong ? 'Update Song' : 'Add Song')}
       </Button>
       {editingSong && (
-        <Button type="button" onClick={onFormClose} disabled={isLoading}>
+        <Button type="button" onClick={onFormClose} disabled={isLoading} className="cancel-button">
           Cancel
         </Button>
       )}
 
       {localErrorMessage && <ErrorMessage>{localErrorMessage}</ErrorMessage>}
-      {error && <ErrorMessage>Error: {error}</ErrorMessage>}
     </FormContainer>
   );
 }
