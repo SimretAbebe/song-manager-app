@@ -6,7 +6,8 @@
   "scripts": {
     "start": "cross-env API_BASE_URL=/api webpack serve --mode development",
     "build": "cross-env API_BASE_URL=/api webpack --mode production",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "postinstall": "chmod +x node_modules/.bin/*"
   },
   "keywords": [],
   "author": "",
