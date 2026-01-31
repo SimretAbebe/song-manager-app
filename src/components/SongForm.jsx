@@ -5,15 +5,15 @@ import { addSongRequested, updateSongRequested } from "../store/slices/songsSlic
 
 const FormContainer = styled.form`
   background-color: ${({ theme }) => theme.colors.background.paper};
-  border-radius: ${({ theme }) => theme.shape.borderRadius * 2}px; /* More rounded */
-  padding: ${({ theme }) => theme.spacing(4)}; /* Increased padding */
-  box-shadow: ${({ theme }) => theme.shadows[4]}; /* More prominent shadow */
+  border-radius: ${({ theme }) => theme.shape.borderRadius * 2}px;
+  padding: ${({ theme }) => theme.spacing(4)}; 
+  box-shadow: ${({ theme }) => theme.shadows[4]};
   border: 1px solid ${({ theme }) => theme.colors.divider};
-  max-width: 550px; /* Slightly wider form */
-  margin: ${({ theme }) => theme.spacing(6)} auto; /* More margin top/bottom */
+  max-width: 550px; 
+  margin: ${({ theme }) => theme.spacing(6)} auto; 
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing(3)}; /* Increased gap between form groups */
+  gap: ${({ theme }) => theme.spacing(3)}; 
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     margin: ${({ theme }) => theme.spacing(4)} auto;
@@ -27,7 +27,7 @@ const FormTitle = styled.h3`
   color: ${({ theme }) => theme.colors.primary.main};
   font-size: ${({ theme }) => theme.typography.h2.fontSize};
   font-weight: ${({ theme }) => theme.typography.h2.fontWeight};
-  margin: 0 0 ${({ theme }) => theme.spacing(3)} 0; /* More margin below title */
+  margin: 0 0 ${({ theme }) => theme.spacing(3)} 0;
   text-align: center;
   text-shadow: 0.5px 0.5px 1px rgba(0, 0, 0, 0.1);
 `;
@@ -38,7 +38,7 @@ const FormGroup = styled.div`
 `;
 
 const Label = styled.label`
-  font-size: ${({ theme }) => theme.typography.body1.fontSize}; /* Slightly larger label */
+  font-size: ${({ theme }) => theme.typography.body1.fontSize}; 
   color: ${({ theme }) => theme.colors.text.primary};
   margin-bottom: ${({ theme }) => theme.spacing(1)};
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
@@ -55,7 +55,7 @@ const Input = styled.input`
   &:focus {
     outline: none;
     border-color: ${({ theme }) => theme.colors.primary.main};
-    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.primary.main}; /* Stronger focus glow */
+    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.primary.main}; 
   }
 `;
 
@@ -79,7 +79,7 @@ const Button = styled.button`
   background-color: ${({ theme }) => theme.colors.primary.main};
   color: white;
   border: none;
-  border-radius: ${({ theme }) => theme.shape.borderRadius * 1.5}px; /* More rounded */
+  border-radius: ${({ theme }) => theme.shape.borderRadius * 1.5}px;
   font-size: ${({ theme }) => theme.typography.button.fontSize};
   font-weight: ${({ theme }) => theme.typography.button.fontWeight};
   text-transform: uppercase;
@@ -106,7 +106,7 @@ const Button = styled.button`
     margin-top: ${({ theme }) => theme.spacing(1)};
 
     &:hover {
-      background-color: #616161; /* Darker gray for cancel hover */
+      background-color: #616161; 
       transform: translateY(-2px);
       box-shadow: ${({ theme }) => theme.shadows[2]};
     }
