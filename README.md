@@ -22,7 +22,7 @@ A modern full-stack application to manage a list of Ethiopian songs, built with 
 -   Babel
 
 **Backend (Simulated):**
--   MirageJS
+-   MirageJS ------ I used miragle so i can't deploy on netlify !
 -   Faker.js
 
 **Testing:**
